@@ -1,0 +1,10 @@
+- on the first page load, the server generates a random board and sends
+  the board layout (as a JSON encoded object) to the client
+- the client JS renders the received board layout
+- all the code for user clicks etc lives in the client JS
+- we will (eventually) have a nice UI to show the user what pieces she
+  has clicked, and the order in which they have been clicked
+- once the user is done clicking, she clicks submit
+- server validates the response, client updates UI accordingly
+- client maintains a timer. on timer expiration, show final scores,
+  other words users have suggested, final score etc
