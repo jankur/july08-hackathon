@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <script src="http://www.google.com/jsapi"></script>
+    <script>
+      // Load jQuery
+      google.load("jquery", "1");
+
+      // on page load complete, fire off a jQuery json-p query
+      // against Google web search
+      google.setOnLoadCallback(function() {
+      });
+    </script>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td>{{ board.0 }}</td>
+        <td>{{ board.1 }}</td>
+        <td>{{ board.2 }}</td>
+        <td>{{ board.3 }}</td>
+      </tr>
+      <tr>
+        <td>{{ board.4 }}</td>
+        <td>{{ board.5 }}</td>
+        <td>{{ board.6 }}</td>
+        <td>{{ board.7 }}</td>
+      </tr>
+      <tr>
+        <td>{{ board.8 }}</td>
+        <td>{{ board.9 }}</td>
+        <td>{{ board.10 }}</td>
+        <td>{{ board.11 }}</td>
+      </tr>
+      <tr>
+        <td>{{ board.12 }}</td>
+        <td>{{ board.13 }}</td>
+        <td>{{ board.14 }}</td>
+        <td>{{ board.15 }}</td>
+      </tr>
+      <tr>
+        <td>{{ board.16 }}</td>
+        <td>{{ board.17 }}</td>
+        <td>{{ board.18 }}</td>
+        <td>{{ board.19 }}</td>
+      </tr>
+    </table>
+    <form onSubmit="AddToList();">
+      <span><input type="text" name="word" id="word"/></span>
+      <span><input type="submit" value="Submit"/></span>
+    </form>
+  </body>
+</html>
