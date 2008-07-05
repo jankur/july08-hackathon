@@ -10,7 +10,7 @@ from google.appengine.ext import webapp
 
 from google.appengine.ext.webapp import template
 
-from datamodel import Transaction
+import datamodel as dm
 
 class MainHandler(webapp.RequestHandler):
   def get(self):
@@ -19,14 +19,18 @@ class MainHandler(webapp.RequestHandler):
       self.redirect(users.create_login_url(self.request.uri))
       return
 
-    transactions = Transaction.all().order('-date')
+    query = dm.TransactionUser.all()
+    query.filter("user", user)
+    transactions = []
+    for tu in query:
+      transactions.append(tu.transaction)
+
     tpl_values = {
       'username': user.nickname(),
       'transactions': transactions,
     }
     path = os.path.join(os.path.dirname(__file__), "templates", "homepage.tpl")
     self.response.out.write(template.render(path, tpl_values))
-
  
 def main():
   application = webapp.WSGIApplication([('/', MainHandler)],

@@ -6,8 +6,10 @@
   List of ALL transactions:
   <ul>
   {% for t in transactions %}
-    <li><b>{{ t.date|date:"d M Y "}}</b>:
-    {{t.description}}</li>
+    <li>
+      <a href="/?tid={{t.key}}"><b>{{ t.date|date:"d M Y "}}</b>:
+       {{t.description}}</a>
+    </li>
   {% endfor %}
   </ul> 
 </body>
