@@ -6,6 +6,7 @@ import os
 import random
 
 # GAE imports
+from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
@@ -33,10 +34,21 @@ def getRandomBoard():
     board.append(dice[die][random.randint(0, 5)])
   return board
 
+class Game(db.Model):
+  board = db.ListProperty(str)
+  date = db.DateTimeProperty(auto_now_add=True)
+  
+
 class MainHandler(webapp.RequestHandler):
   def get(self):
+    # Make the db store object representing the game.
+    game = Game()
+    game.board = getRandomBoard()
+    game.put()
+
     template_values = {
-        'board': getRandomBoard()
+        'key': str(game.key()),
+        'board': game.board
     }
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
