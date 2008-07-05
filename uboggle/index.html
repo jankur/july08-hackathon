@@ -5,17 +5,24 @@
       // Load jQuery
       google.load("jquery", "1");
 
+      var words = ["foo", "bar", "baz"];
+
       function addWordToList() {
           var new_word = $("#new_word").val();
+          words.push(new_word);
           $("#input_words").append(new_word + ", ");
           $("#new_word").val("");
       }
 
       function initialize() {
         $("#submit_new_word").click(addWordToList);
-        $("#countdown").countdown({until: 120, format: 'S'});
+        $("#countdown").countdown({until: 5, format: 'S', onExpiry: gameOver});
       }
   
+      function gameOver() {
+        $.post("/testjson", {'words': words}, function (data) { alert(data); }, "json");
+      }
+
       // on page load complete, fire off a jQuery json-p query
       // against Google web search
       google.setOnLoadCallback(initialize);
