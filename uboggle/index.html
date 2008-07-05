@@ -13,12 +13,16 @@
 
       function initialize() {
         $("#submit_new_word").click(addWordToList);
+        $("#countdown").countdown({until: 120, format: 'S'});
       }
   
       // on page load complete, fire off a jQuery json-p query
       // against Google web search
       google.setOnLoadCallback(initialize);
     </script>
+    <script typeof="text/javascript" src="/static/js/jquery.countdown.js"></script>
+
+    <link rel="stylesheet" href="/static/css/jquery.countdown.css" media="screen"/>
   </head>
   <body>
     <table>
@@ -60,5 +64,7 @@
     <h2>Added words</h2>
     <p id="input_words">
     </p>
+    <div id="countdown">
+    </div>
   </body>
 </html>
