@@ -9,8 +9,8 @@ class Transaction(db.Model):
   currency = db.StringProperty(default='USD')
 
 class TransactionUserEntry(db.Model):
-  transaction_id = db.ReferenceProperty(Transaction, required=True) 
-  user_id = db.UserProperty()
+  transaction = db.ReferenceProperty(Transaction, required=True) 
+  user = db.UserProperty()
   amount_paid = db.FloatProperty()
   amount_owed = db.FloatProperty()
   auto_computed = db.BooleanProperty(default=False)   
