@@ -32,6 +32,9 @@ class TransactionState:
   def transaction_user(self, user):
     return self._tu_map.get(user)
 
+  def all_transaction_users(self):
+    return self._tu_map.values()
+
   def AddTransactionUser(self, tu):
     # TODO: If user already exists?
     self._tu_map[tu.user] = tu

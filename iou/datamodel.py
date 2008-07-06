@@ -7,7 +7,7 @@ class Transaction(db.Model):
   date = db.DateTimeProperty(required=True)
   description = db.StringProperty(required=True)
   # location = 
-  owner = db.UserProperty()
+  # owner = db.UserProperty()
   currency = db.StringProperty(default='USD')
 
 class AmountProperty(db.FloatProperty):
