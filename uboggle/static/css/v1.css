@@ -16,6 +16,14 @@ h2 {
   font-size: 150%;
 }
 
+h3 {
+  font-size: 140%;
+}
+
+h1, h2, h3 {
+  margin: 5px 0 5px 0;
+}
+
 p {
   padding: 5px;
 }

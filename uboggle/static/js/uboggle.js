@@ -111,6 +111,7 @@ function showResults(results) {
     $("#results").append('<span><a href="http://definr.com/' + results[i][0] + '" class="' + results[i][1] + '">' + results[i][0] + '</a></span> ');
     score += results[i][2];
   }
+  $("#results").append("<h3>Your final score was " + score + "</h3>");
 }
 
 function gameOver() {
