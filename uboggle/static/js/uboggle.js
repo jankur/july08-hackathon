@@ -103,10 +103,19 @@ function initialize() {
   $("#countdown").countdown({until: 120, format: 'S', onExpiry: gameOver});
 }
 
+function showResults(data) {
+  all_words = data.solution
+  $("#results").text("");
+  $("#results").append("<h2>Results</h2>");
+  for(i = 0; i < all_words.length; i++) {
+    $("#results").append('<span><a href="http://definr.com/' + all_words[i] + '>' + all_words[i] + '</a></span> ');
+  }
+}
+
 function gameOver() {
+  $("#countdown").countdown('destroy');
   $.post("/getscore", 
-         {'words': words, 'game_key': game_key}, 
-           function (data) {alert(data);}, "json");
+         {'words': words, 'game_key': game_key}, showResults, "json");
 }
 
 google.setOnLoadCallback(initialize);
