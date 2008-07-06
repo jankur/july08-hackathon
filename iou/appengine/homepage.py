@@ -31,9 +31,30 @@ class MainHandler(webapp.RequestHandler):
     }
     path = os.path.join(os.path.dirname(__file__), "templates", "homepage.tpl")
     self.response.out.write(template.render(path, tpl_values))
+
+class JSONHandler(webapp.RequestHandler):
+  def get(self):
+    user = users.get_current_user()
+    if not user:
+      self.redirect(users.create_login_url(self.request.uri))
+      return
+
+    query = dm.TransactionUser.all()
+    query.filter("user", user)
+    transactions = []
+    for tu in query:
+      t = tu.transaction
+      d = { 'date' : t.date.strftime("%d %M %Y"), 
+            'description': t.description,
+            'currency': t.currency
+          }
+      transactions.append(d)
+
+    self.response.out.write(simplejson.dumps(transactions))
  
 def main():
-  application = webapp.WSGIApplication([('/', MainHandler)],
+  application = webapp.WSGIApplication([('/', MainHandler),
+                                        ('/json', JSONHandler)],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
