@@ -67,27 +67,27 @@ class GetScore(webapp.RequestHandler):
   def post(self):
     words = self.request.get_all("words")
     game_key = str(self.request.get("game_key"))
+
     logging.info(words)
     logging.info(game_key)
+
     game = Game.get(db.Key(game_key))
     logging.info(game.solution)
 
-    answer = []
+    results = []
     sol_set = set(game.solution)
     for word in words:
       word = word.lower()
       if word in sol_set:
-        answer.append((word, True, self.getWordScore(word)))
+        results.append((word, "correct", self.getWordScore(word)))
       else:
-        answer.append((word, False, 0))
+        results.append((word, "incorrect", 0))
+    for word in game.solution:
+      if word not in words:
+        results.append((word, "notpresent", 0))
         
-    template_values = {
-        'solution': game.solution,
-        'answer': answer,
-        }
-    
-    logging.info(template_values)
-    self.response.out.write(simplejson.dumps(template_values))
+    logging.info(results)
+    self.response.out.write(simplejson.dumps(results))
 
   def getWordScore(self, word):
     length = len(word)

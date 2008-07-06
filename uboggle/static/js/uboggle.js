@@ -103,12 +103,14 @@ function initialize() {
   $("#countdown").countdown({until: 120, format: 'S', onExpiry: gameOver});
 }
 
-function showResults(data) {
-  all_words = data.solution
+function showResults(results) {
+  var score = 0;
   $("#results").text("");
+  $.jGrowl(results[0]);
   $("#results").append("<h2>Results</h2>");
-  for(i = 0; i < all_words.length; i++) {
-    $("#results").append('<span><a href="http://definr.com/' + all_words[i] + '>' + all_words[i] + '</a></span> ');
+  for(i = 0; i < results.length; i++) {
+    $("#results").append('<span><a href="http://definr.com/' + results[i][0] + '" class="' + results[i][1] + '">' + results[i][0] + '</a></span> ');
+    score += results[i][2];
   }
 }
 
