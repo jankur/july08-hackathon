@@ -25,7 +25,7 @@
     in3 = document.createElement("input")
     in3.setAttribute("name", "owed")
     in3.setAttribute("id", "owed")
-    in3.setAttribute("value", "even")
+    in3.setAttribute("value", "-1")
     td3.appendChild(in3)
 
     row.appendChild(td1);

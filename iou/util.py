@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+
 from google.appengine.ext import db
 
 import datamodel as dm
@@ -59,7 +61,7 @@ class TransactionState:
       return
     equal_division = (total_spent - fixed_owed) / num_to_divide
     for tu in self._tu_map.values():
-      if tu.auto_computed:
+      if not tu.auto_computed:
 	tu.amount_owed = equal_division
 
   def TotalSpent(self):

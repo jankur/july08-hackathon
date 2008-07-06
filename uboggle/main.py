@@ -71,14 +71,40 @@ class GetScore(webapp.RequestHandler):
     logging.info(game_key)
     game = Game.get(db.Key(game_key))
     logging.info(game.solution)
+
+    answer = []
+    sol_set = set(game.solution)
+    for word in words:
+      word = word.lower()
+      if word in sol_set:
+        answer.append((word, True, self.getWordScore(word)))
+      else:
+        answer.append((word, False, 0))
+        
     template_values = {
         'solution': game.solution,
-        'words': words,
+        'answer': answer,
         }
     
     logging.info(template_values)
     self.response.out.write(simplejson.dumps(template_values))
 
+  def getWordScore(self, word):
+    length = len(word)
+    if word.find("qu") != -1:
+      length -= 1
+
+    if length >= 3 and length <= 4:
+      return 1
+    elif length == 5:
+      return 2
+    elif length == 6:
+      return 3
+    elif length == 7:
+      return 5
+    else:
+      return 11
+    
 def main():
   application = webapp.WSGIApplication(
       [('/', MainHandler), 
