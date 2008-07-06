@@ -1,6 +1,7 @@
 # Python imports
 import bz2
 import logging
+import os
 
 # uboggle imports
 import trie as trie_module
@@ -56,5 +57,6 @@ def getSolver():
     logging.info("Calling getSolver")
     # t = trie_module.Trie(map(str.strip, open('static/dict.txt').readlines()))
     t = trie_module.Trie(map(str.strip,
-      bz2.BZ2File('static/dict.txt.bz2', 'r').readlines()))
+      bz2.BZ2File(os.path.join(os.path.dirname(__file__), "static",
+        'dict.txt.bz2'), 'r').readlines()))
     return Solver(t)
