@@ -10,6 +10,8 @@ class UnauthorizedUserException(Exception):
 
 class TransactionState:
   def __init__(self, transaction, user):
+    if not transaction.is_saved():
+      transaction.put()
     self._transaction = transaction
     self._tu_map = {}
     query = dm.TransactionUser.all()
@@ -35,7 +37,7 @@ class TransactionState:
     self._tu_map[tu.user] = tu
 
   def SettleTransaction(self):
-    (total_spent, fixed_owed, num_fixed_owed)  = _InternalSums()
+    (total_spent, fixed_owed, num_fixed_owed)  = self._InternalSums()
     num_to_divide = len(self._tu_map) - num_fixed_owed
     if num_to_divide < 0:
       raise Exception("Please debug me")
@@ -47,12 +49,12 @@ class TransactionState:
 	tu.amount_owed = equal_division
 
   def TotalSpent(self):
-    return _InternalSums()[0]
+    return self._InternalSums()[0]
 
   def Save(self):
     try:
       db.run_in_transaction(self._SaveTransactionUsers)
-      self_.transaction.put()
+      self._transaction.put()
     except Exception, e:
       raise e
 
@@ -60,12 +62,13 @@ class TransactionState:
     for tu in self._tu_map.values():
       tu.put()
 
-  def _InternalSums():
+  def _InternalSums(self):
     total_spent = 0
     fixed_owed = 0
     num_fixed_owed = 0
     for tu in self._tu_map.values():
-      if not tu.amount_paid.empty():
+      # TODO: Asim does not like this < 0
+      if not tu.amount_paid < 0:
 	total_spent += tu.amount_paid
       if tu.auto_computed:
 	if tu.amount_owed.empty():
