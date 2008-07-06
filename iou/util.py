@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+
 from google.appengine.ext import db
 
 import datamodel as dm
@@ -9,6 +11,13 @@ class UnauthorizedUserException(Exception):
     pass
 
 class TransactionState:
+  def NewTransaction(transaction, user):
+    transaction.put()
+    tu = dm.TransactionUser(transaction=transaction,
+			    user=user,
+			    parent=transaction)
+    tu.put()
+
   def __init__(self, transaction, user):
     if not transaction.is_saved():
       transaction.put()
@@ -35,9 +44,13 @@ class TransactionState:
   def all_transaction_users(self):
     return self._tu_map.values()
 
-  def AddTransactionUser(self, tu):
+  def AddTransactionUser(self, u):
     # TODO: If user already exists?
-    self._tu_map[tu.user] = tu
+    tu = dm.TransactionUser(transaction=self._transaction,
+                            user=u,
+			    parent=self._transaction)
+    self._tu_map[u] = tu
+    return tu
 
   def SettleTransaction(self):
     (total_spent, fixed_owed, num_fixed_owed)  = self._InternalSums()
@@ -48,7 +61,7 @@ class TransactionState:
       return
     equal_division = (total_spent - fixed_owed) / num_to_divide
     for tu in self._tu_map.values():
-      if tu.auto_computed:
+      if not tu.auto_computed:
 	tu.amount_owed = equal_division
 
   def TotalSpent(self):
