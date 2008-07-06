@@ -5,14 +5,38 @@
       // Load jQuery
       google.load("jquery", "1");
 
+      var words = ["foo", "bar", "baz"];
+
+      function addWordToList() {
+          var new_word = $("#new_word").val();
+          words.push(new_word);
+          $("#input_words").append(new_word + ", ");
+          $("#new_word").val("");
+      }
+
+      function initialize() {
+        $("#submit_new_word").click(addWordToList);
+        $("#countdown").countdown({until: 120, format: 'S', onExpiry: gameOver});
+      }
+  
+      function gameOver() {
+        $.post("/testjson", {'words': words}, function (data) {}, "json");
+      }
+
       // on page load complete, fire off a jQuery json-p query
       // against Google web search
-      google.setOnLoadCallback(function() {
-      });
+      google.setOnLoadCallback(initialize);
     </script>
+    <script typeof="text/javascript" src="/static/js/jquery.countdown.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/reset/reset-min.css"> 
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/fonts/fonts-min.css"> 
+    <link rel="stylesheet" href="/static/css/jquery.countdown.css" media="screen"/>
+    <link rel="stylesheet" href="/static/css/v1.css" media="screen"/>
   </head>
   <body>
-    <table>
+    <div id="content">
+    <table id="board">
       <tr>
         <td>{{ board.0 }}</td>
         <td>{{ board.1 }}</td>
@@ -44,9 +68,15 @@
         <td>{{ board.19 }}</td>
       </tr>
     </table>
-    <form onSubmit="AddToList();">
-      <span><input type="text" name="word" id="word"/></span>
-      <span><input type="submit" value="Submit"/></span>
-    </form>
+    <div id="add_word">
+      <span><input type="text" name="new_word" id="new_word"/></span>
+      <span><a href="javascript:addWordToList();">Submit</a></span>
+    </div>
+    <h2>Added words</h2>
+    <p id="input_words">
+    </p>
+    <div id="countdown">
+    </div>
+  </div>
   </body>
 </html>

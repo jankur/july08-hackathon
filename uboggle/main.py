@@ -1,14 +1,18 @@
 #!/usr/bin/env python
 
 # Standard Python imports
-import wsgiref.handlers
+import logging
 import os
 import random
+import wsgiref.handlers
 
 # GAE imports
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+
+# django imports
+from django.utils import simplejson
 
 def getRandomBoard():
   dice = [ [ 'L', 'R', 'Y', 'T', 'T', 'E' ],
@@ -53,9 +57,17 @@ class MainHandler(webapp.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
 
+class TestJSON(webapp.RequestHandler):
+  def post(self):
+    words = self.request.get_all("words")
+    logging.info(words)
+    self.response.out.write(simplejson.dumps(words[0:2]))
+
 def main():
-  application = webapp.WSGIApplication([('/', MainHandler)],
-                                       debug=True)
+  application = webapp.WSGIApplication(
+      [('/', MainHandler), 
+        ("/testjson", TestJSON)],
+      debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
 if __name__ == '__main__':
