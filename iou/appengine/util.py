@@ -59,10 +59,10 @@ class TransactionState:
       raise Exception("Please debug me")
     if num_to_divide == 0:
       return
-    equal_division = (total_spent - fixed_owed) / num_to_divide
+    equal_division = (total_spent - fixed_owed) / float(num_to_divide)
     for tu in self._tu_map.values():
       if not tu.auto_computed:
-	tu.amount_owed = equal_division
+	tu.amount_owed = float(equal_division)
 
   def TotalSpent(self):
     return self._InternalSums()[0]

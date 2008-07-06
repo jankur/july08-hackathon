@@ -4,10 +4,10 @@ import os
 import wsgiref.handlers
 import datetime
 
+from django.utils import simplejson
 from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.ext import webapp
-
 from google.appengine.ext.webapp import template
 
 import datamodel as dm
@@ -35,20 +35,20 @@ class MainHandler(webapp.RequestHandler):
 class JSONHandler(webapp.RequestHandler):
   def get(self):
     user = users.get_current_user()
+    transactions = []
     if not user:
       self.redirect(users.create_login_url(self.request.uri))
-      return
-
-    query = dm.TransactionUser.all()
-    query.filter("user", user)
-    transactions = []
-    for tu in query:
-      t = tu.transaction
-      d = { 'date' : t.date.strftime("%d %M %Y"), 
-            'description': t.description,
-            'currency': t.currency
-          }
-      transactions.append(d)
+    else:
+      query = dm.TransactionUser.all()
+      query.filter("user", user)
+      for tu in query:
+	t = tu.transaction
+	d = { 'date' : t.date.strftime("%d %M %Y"), 
+	      'description': t.description,
+	      'currency': t.currency,
+	      'tid': str(t.key()),
+	    }
+	transactions.append(d)
 
     self.response.out.write(simplejson.dumps(transactions))
  

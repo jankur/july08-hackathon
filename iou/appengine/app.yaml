@@ -4,8 +4,20 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /
+- url: /add
+  script: main.py
+
+- url: /edit
+  script: main.py
+
+- url: /json
   script: homepage.py
 
-- url: .*
-  script: main.py
+- url: /
+  static_files: genfiles/iou.Frontend/Frontend.html
+  upload: genfiles/iou.Frontend/Frontend.html
+
+- url: /(.*)
+  static_files: genfiles/iou.Frontend/\1
+  upload: genfiles/iou.Frontend/*
+
