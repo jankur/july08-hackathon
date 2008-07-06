@@ -1,82 +1,65 @@
 <html>
   <head>
+    <!-- Javascript -->
     <script src="http://www.google.com/jsapi"></script>
-    <script>
-      // Load jQuery
+    <script type="text/javascript">
       google.load("jquery", "1");
-
-      var words = ["foo", "bar", "baz"];
-
-      function addWordToList() {
-          var new_word = $("#new_word").val();
-          words.push(new_word);
-          $("#input_words").append(new_word + ", ");
-          $("#new_word").val("");
-      }
-
-      function initialize() {
-        $("#submit_new_word").click(addWordToList);
-        $("#countdown").countdown({until: 120, format: 'S', onExpiry: gameOver});
-      }
-  
-      function gameOver() {
-        $.post("/testjson", {'words': words}, function (data) {}, "json");
-      }
-
-      // on page load complete, fire off a jQuery json-p query
-      // against Google web search
-      google.setOnLoadCallback(initialize);
     </script>
-    <script typeof="text/javascript" src="/static/js/jquery.countdown.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.countdown.js"></script>
+    <script type="text/javascript" src="/static/js/uboggle.js"></script>
 
+    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/reset/reset-min.css"> 
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/fonts/fonts-min.css"> 
     <link rel="stylesheet" href="/static/css/jquery.countdown.css" media="screen"/>
     <link rel="stylesheet" href="/static/css/v1.css" media="screen"/>
+
   </head>
   <body>
     <div id="content">
-    <table id="board">
-      <tr>
-        <td>{{ board.0 }}</td>
-        <td>{{ board.1 }}</td>
-        <td>{{ board.2 }}</td>
-        <td>{{ board.3 }}</td>
-      </tr>
-      <tr>
-        <td>{{ board.4 }}</td>
-        <td>{{ board.5 }}</td>
-        <td>{{ board.6 }}</td>
-        <td>{{ board.7 }}</td>
-      </tr>
-      <tr>
-        <td>{{ board.8 }}</td>
-        <td>{{ board.9 }}</td>
-        <td>{{ board.10 }}</td>
-        <td>{{ board.11 }}</td>
-      </tr>
-      <tr>
-        <td>{{ board.12 }}</td>
-        <td>{{ board.13 }}</td>
-        <td>{{ board.14 }}</td>
-        <td>{{ board.15 }}</td>
-      </tr>
-      <tr>
-        <td>{{ board.16 }}</td>
-        <td>{{ board.17 }}</td>
-        <td>{{ board.18 }}</td>
-        <td>{{ board.19 }}</td>
-      </tr>
-    </table>
-    <div id="add_word">
-      <span><input type="text" name="new_word" id="new_word"/></span>
-      <span><a href="javascript:addWordToList();">Submit</a></span>
+      <table id="board">
+        <tr>
+          <td>{{ board.0 }}</td>
+          <td>{{ board.1 }}</td>
+          <td>{{ board.2 }}</td>
+          <td>{{ board.3 }}</td>
+        </tr>
+        <tr>
+          <td>{{ board.4 }}</td>
+          <td>{{ board.5 }}</td>
+          <td>{{ board.6 }}</td>
+          <td>{{ board.7 }}</td>
+        </tr>
+        <tr>
+          <td>{{ board.8 }}</td>
+          <td>{{ board.9 }}</td>
+          <td>{{ board.10 }}</td>
+          <td>{{ board.11 }}</td>
+        </tr>
+        <tr>
+          <td>{{ board.12 }}</td>
+          <td>{{ board.13 }}</td>
+          <td>{{ board.14 }}</td>
+          <td>{{ board.15 }}</td>
+        </tr>
+        <tr>
+          <td>{{ board.16 }}</td>
+          <td>{{ board.17 }}</td>
+          <td>{{ board.18 }}</td>
+          <td>{{ board.19 }}</td>
+        </tr>
+      </table>
+      <div id="add_word">
+        <h2>Enter your word</h2>
+        <span><input type="text" name="new_word" id="new_word"/></span>
+        <span><a href="javascript:addWordToList();">Submit</a></span>
+      </div>
+      <div id="input_words">
+        <h2>Added words</h2>
+        <p></p>
+      </div>
+      <div id="countdown">
+      </div>
     </div>
-    <h2>Added words</h2>
-    <p id="input_words">
-    </p>
-    <div id="countdown">
-    </div>
-  </div>
   </body>
 </html>
