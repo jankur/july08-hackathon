@@ -62,6 +62,7 @@ class EditHandler(webapp.RequestHandler):
       self._FillInPersons(persons, paids, oweds)
 
     if len(self.errors) == 0 and len(self.user_errors) == 0:
+      tstate.SettleTransaction()
       tstate.Save()
     else:
       errors.append("DID NOT SAVE")
