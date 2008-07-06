@@ -5,6 +5,7 @@ import logging
 import os
 import random
 import wsgiref.handlers
+import solver
 
 # GAE imports
 from google.appengine.ext import db
@@ -13,6 +14,8 @@ from google.appengine.ext.webapp import template
 
 # django imports
 from django.utils import simplejson
+
+mysolver = solver.getSolver()
 
 def getRandomBoard():
   dice = [ [ 'L', 'R', 'Y', 'T', 'T', 'E' ],
@@ -41,15 +44,19 @@ def getRandomBoard():
 class Game(db.Model):
   board = db.ListProperty(str)
   date = db.DateTimeProperty(auto_now_add=True)
-  
+  solution = db.ListProperty(str)
 
 class MainHandler(webapp.RequestHandler):
   def get(self):
+    global mysolver
     # Make the db store object representing the game.
     game = Game()
     game.board = getRandomBoard()
+    game.solution = mysolver.solve(game.board) 
     game.put()
 
+    logging.info(game.solution)
+    
     template_values = {
         'key': str(game.key()),
         'board': game.board
@@ -59,9 +66,16 @@ class MainHandler(webapp.RequestHandler):
 
 class TestJSON(webapp.RequestHandler):
   def post(self):
+    #key = self.request.get_all("key")
     words = self.request.get_all("words")
-    logging.info(words)
-    self.response.out.write(simplejson.dumps(words[0:2]))
+    #game = db.get(key)
+    template_values = {
+     # 'solution': game.solution,
+      'words': words,
+      }
+    
+    logging.info(template_values)
+    self.response.out.write(simplejson.dumps(template_values))
 
 def main():
   application = webapp.WSGIApplication(

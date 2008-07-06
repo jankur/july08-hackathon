@@ -22,10 +22,13 @@ class Solver:
 
     def solve(self, board):
         words = set([])
+        b = map(str.lower, board)
         for i in range(16):
-            self._findWords(board, i, set([]), board[i], words)
-        
-        return list(words)
+            self._findWords(b, i, set([]), b[i], words)
+
+        answer = list(words)
+        answer.sort()
+        return answer
 
     def _findWords(self, board, cur_pos, past_positions, prefix, words):
         (valid, terminal) = self.trie.lookup(prefix)
@@ -43,4 +46,7 @@ class Solver:
         past_positions.remove(cur_pos)
         
         return
-
+  
+def getSolver():
+    t = trie_module.Trie(map(str.strip, open('static/dict.txt').readlines()))
+    return Solver(t)
