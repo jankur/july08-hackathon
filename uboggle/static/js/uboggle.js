@@ -41,10 +41,6 @@ function existsOnBoard(new_word) {
         y = nY;
       }
       else {
-        $.jGrowl(nX + "," + nY + " | " + x + "," + y);
-        $.jGrowl(lower_case_board[nIndex] + "," +
-                 lower_case_board[index] + "," +
-                 new_word[i] + "," + new_word[i-1]);
         alive = false;
         break;
       }
@@ -101,12 +97,15 @@ function addWordToList() {
 
 function initialize() {
   $("#countdown").countdown({until: 120, format: 'S', onExpiry: gameOver});
+  $("#new_word").keypress(function(e){
+    if(e.which == 13)
+      addWordToList();
+  });
 }
 
 function showResults(results) {
   var score = 0;
   $("#results").text("");
-  $.jGrowl(results[0]);
   $("#results").append("<h2>Results</h2>");
   for(i = 0; i < results.length; i++) {
     $("#results").append('<span><a href="http://definr.com/' + results[i][0] + '" class="' + results[i][1] + '">' + results[i][0] + '</a></span> ');
