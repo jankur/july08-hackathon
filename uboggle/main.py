@@ -58,21 +58,24 @@ class MainHandler(webapp.RequestHandler):
     logging.info(game.solution)
     
     template_values = {
-        'key': str(game.key()),
+        'game_key': str(game.key()),
         'board': game.board
     }
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
 
-class TestJSON(webapp.RequestHandler):
+class GetScore(webapp.RequestHandler):
   def post(self):
     #key = self.request.get_all("key")
     words = self.request.get_all("words")
-    #game = db.get(key)
+    game_key = self.request.get("game_key")
+    logging.info(words)
+    logging.info(game_key)
+    game = db.get(game_key)
     template_values = {
-     # 'solution': game.solution,
-      'words': words,
-      }
+        'solution': game.solution,
+        'words': words,
+        }
     
     logging.info(template_values)
     self.response.out.write(simplejson.dumps(template_values))
@@ -80,7 +83,7 @@ class TestJSON(webapp.RequestHandler):
 def main():
   application = webapp.WSGIApplication(
       [('/', MainHandler), 
-        ("/testjson", TestJSON)],
+        ("/getscore", GetScore)],
       debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 

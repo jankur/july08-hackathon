@@ -8,6 +8,14 @@ body {
   font-size: 123%;
 }
 
+h1 {
+  font-size: 197%;
+}
+
+p {
+  padding: 5px;
+}
+
 div#content {
   width: 800px;
   margin: auto;

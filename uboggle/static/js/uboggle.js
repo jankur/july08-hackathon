@@ -104,7 +104,9 @@ function initialize() {
 }
 
 function gameOver() {
-  $.post("/testjson", {'words': words}, function (data) {alert('Data!');}, "json");
+  $.post("/getscore", 
+         {'words': words, 'game_key': game_key}, 
+           function (data) {alert(data);}, "json");
 }
 
 google.setOnLoadCallback(initialize);
