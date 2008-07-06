@@ -8,7 +8,7 @@ function existsOnBoard(new_word) {
              {life: 2000});
     $("#new_word").css("border", "thin solid red");
     $("#new_word").val("");
-    return;
+    return false;
   }
   x = index / 4 | 0; // convert to int
   y = index % 4;
@@ -79,6 +79,20 @@ function addWordToList() {
     return;
   }
 
+  alive = true;
+  for(i = 0; i < new_word.length && alive; i++) {
+    if (lower_case_board.indexOf(new_word.charAt(i)) == -1) {
+      alive = false;
+      break;
+    }
+  }
+  if(!alive) {
+    $.jGrowl("This word is not on the board!",
+             {life: 2000});
+    $("#new_word").css("border", "thin solid red");
+    $("#new_word").val("");
+    return;
+  }
 
   words.push(new_word);
   $("#input_words p").append(new_word + ", ");

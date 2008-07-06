@@ -23,6 +23,21 @@
   </head>
   <body>
     <div id="content">
+      <h1>U Boggle!</h1>
+      <p>According to <a
+        href="http://en.wikipedia.org/wiki/Boggle">Wikipedia</a>:
+      <i>Boggle is a word game designed by Allan Turoff and
+        trademarked by Parker Brothers and Hasbro. The game is
+        played using a grid of lettered dice, in which players
+        attempt to find words in sequences of adjacent
+        letters.</i></p>
+      <p>
+      Find as many words as you can in the grid below before your
+      time runs out! When you are done, just click Submit. The
+      only constraint is that sequential letters in the word
+      <strong>must</strong> be in adjacent positions on the board
+      (either horizontally, vertically or diagonally).
+      </p>
       <table id="board">
         <tr>
           <td>{{ board.0 }}</td>
@@ -59,6 +74,7 @@
         <h2>Enter your word</h2>
         <span><input type="text" name="new_word" id="new_word"/></span>
         <span><a href="javascript:addWordToList();">Submit</a></span>
+        <span><a href="javascript:gameOver();">I'm done!</a></span>
       </div>
       <div id="input_words">
         <h2>Added words</h2>
