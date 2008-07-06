@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from google.appengine.ext import db
 from google.appengine.api import users
 
@@ -8,10 +10,14 @@ class Transaction(db.Model):
   owner = db.UserProperty()
   currency = db.StringProperty(default='USD')
 
-class TransactionUserEntry(db.Model):
+class AmountProperty(db.FloatProperty):
+  def empty(self, value):
+    return value < 0.0
+
+class TransactionUser(db.Model):
   transaction = db.ReferenceProperty(Transaction, required=True) 
   user = db.UserProperty()
-  amount_paid = db.FloatProperty()
-  amount_owed = db.FloatProperty()
-  auto_computed = db.BooleanProperty(default=False)   
+  amount_paid = AmountProperty(default=-1.0)
+  amount_owed = AmountProperty(default=-1.0)
+  auto_computed = db.BooleanProperty(default=False)
 
