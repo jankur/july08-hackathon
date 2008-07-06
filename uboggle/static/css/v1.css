@@ -15,17 +15,31 @@ div#content {
 
 table#board {
   margin: 50px 0 20px 0;
+  position: relative;
 }
 
-table#board td {
+table#board tr {
+  position: relative;
+}
+
+table#board tr td {
   padding: 5px;
   font-size: 182%;
   text-align: center;
   background: #e3e3e3;
+  color: #abb;
+  z-index: 100;
 }
 
-table#board td:hover {
-  background: #b0b0b0;
+table#board tr td:hover {
+  background: #344;
+  color: #fff;
+}
+
+div.ahover {
+    background: #344;
+    position: absolute;
+    z-index: 99;
 }
 
 div#add_word {
@@ -35,3 +49,19 @@ div#add_word {
 div#input_words {
   margin: 10px 0 10px 0;
 }
+
+#flash { position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1000; background-color: #569; color: white; border-bottom: 1px solid #555; }
+#flash, #flash * { cursor: pointer; }
+#flash .yui-b { padding: 5px 0; }
+#flash .yui-b>* { font-size: 128%; }
+#flash label { display: block; text-align: right; font-weight: bold; text-transform: capitalize; }
+#flash label:after { content: ':'; }
+#flash.subtle { background-color: #444; color: white; }
+#flash.subtle:hover { background-color: #222; }
+#flash.warning { background-color: #ff0; color: black; }
+#flash.warning:hover { background-color: #ff8; }
+#flash.success { background-color: #595; }
+#flash.success:hover { background-color: #7b7; }
+#flash.failure, #flash.error { background-color: #800; }
+#flash.failure:hover, #flash.error:hover { background-color: #a00; }
+#flash.subtle, #flash.success, #flash.failure, #flash.error { text-shadow: black 2px 2px 2px; }
