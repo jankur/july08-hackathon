@@ -7,7 +7,7 @@ class Transaction(db.Model):
   date = db.DateTimeProperty(required=True)
   description = db.StringProperty(required=True)
   # location = 
-  owner = db.UserProperty()
+  # owner = db.UserProperty()
   currency = db.StringProperty(default='USD')
 
 class AmountProperty(db.FloatProperty):
@@ -17,7 +17,7 @@ class AmountProperty(db.FloatProperty):
 class TransactionUser(db.Model):
   transaction = db.ReferenceProperty(Transaction, required=True) 
   user = db.UserProperty()
-  amount_paid = AmountProperty(default=-1)
-  amount_owed = AmountProperty(default=-1)
+  amount_paid = AmountProperty(default=-1.0)
+  amount_owed = AmountProperty(default=-1.0)
   auto_computed = db.BooleanProperty(default=False)
 
