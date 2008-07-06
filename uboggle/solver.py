@@ -1,3 +1,8 @@
+# Python imports
+import bz2
+import logging
+
+# uboggle imports
 import trie as trie_module
 
 class Solver:
@@ -48,5 +53,8 @@ class Solver:
         return
   
 def getSolver():
-    t = trie_module.Trie(map(str.strip, open('static/dict.txt').readlines()))
+    logging.info("Calling getSolver")
+    # t = trie_module.Trie(map(str.strip, open('static/dict.txt').readlines()))
+    t = trie_module.Trie(map(str.strip,
+      bz2.BZ2File('static/dict.txt.bz2', 'r').readlines()))
     return Solver(t)
