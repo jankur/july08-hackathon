@@ -1,0 +1,37 @@
+html {
+  margin: auto;
+}
+
+body {
+  margin: auto;
+  font-family: Georgia, serif;
+  font-size: 123%;
+}
+
+div#content {
+  width: 800px;
+  margin: auto;
+}
+
+table#board {
+  margin: 50px 0 20px 0;
+}
+
+table#board td {
+  padding: 5px;
+  font-size: 182%;
+  text-align: center;
+  background: #e3e3e3;
+}
+
+table#board td:hover {
+  background: #b0b0b0;
+}
+
+div#add_word {
+  margin: 10px 0 10px 0;
+}
+
+div#input_words {
+  margin: 10px 0 10px 0;
+}
