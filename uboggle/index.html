@@ -1,9 +1,13 @@
 <html>
   <head>
+    <title>U Boggle!</title>
+
     <!-- Javascript -->
     <script src="http://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("jquery", "1");
+      board={{ board }};
+      lower_case_board = board.join('').toLowerCase();
     </script>
     <script type="text/javascript" src="/static/js/jquery.jgrowl.js"></script>
     <script type="text/javascript" src="/static/js/jquery.countdown.js"></script>
