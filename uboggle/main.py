@@ -42,9 +42,9 @@ def getRandomBoard():
   return board
 
 class Game(db.Model):
-  board = db.ListProperty(str)
+  board = db.StringListProperty(str)
   date = db.DateTimeProperty(auto_now_add=True)
-  solution = db.ListProperty(str)
+  solution = db.StringListProperty(str)
 
 class MainHandler(webapp.RequestHandler):
   def get(self):
@@ -54,24 +54,23 @@ class MainHandler(webapp.RequestHandler):
     game.board = getRandomBoard()
     game.solution = mysolver.solve(game.board) 
     game.put()
-
-    logging.info(game.solution)
     
     template_values = {
         'game_key': str(game.key()),
         'board': game.board
     }
+
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
 
 class GetScore(webapp.RequestHandler):
   def post(self):
-    #key = self.request.get_all("key")
     words = self.request.get_all("words")
-    game_key = self.request.get("game_key")
+    game_key = str(self.request.get("game_key"))
     logging.info(words)
     logging.info(game_key)
-    game = db.get(game_key)
+    game = Game.get(db.Key(game_key))
+    logging.info(game.solution)
     template_values = {
         'solution': game.solution,
         'words': words,
