@@ -16,11 +16,11 @@
 
       function initialize() {
         $("#submit_new_word").click(addWordToList);
-        $("#countdown").countdown({until: 5, format: 'S', onExpiry: gameOver});
+        $("#countdown").countdown({until: 120, format: 'S', onExpiry: gameOver});
       }
   
       function gameOver() {
-        $.post("/testjson", {'words': words}, function (data) { alert(data); }, "json");
+        $.post("/testjson", {'words': words}, function (data) {}, "json");
       }
 
       // on page load complete, fire off a jQuery json-p query
@@ -29,10 +29,14 @@
     </script>
     <script typeof="text/javascript" src="/static/js/jquery.countdown.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/reset/reset-min.css"> 
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/fonts/fonts-min.css"> 
     <link rel="stylesheet" href="/static/css/jquery.countdown.css" media="screen"/>
+    <link rel="stylesheet" href="/static/css/v1.css" media="screen"/>
   </head>
   <body>
-    <table>
+    <div id="content">
+    <table id="board">
       <tr>
         <td>{{ board.0 }}</td>
         <td>{{ board.1 }}</td>
@@ -73,5 +77,6 @@
     </p>
     <div id="countdown">
     </div>
+  </div>
   </body>
 </html>
